@@ -48,24 +48,33 @@ public class SwaggerEndpointExtractor {
         }
     }
 
-    private static OpenAPI parseAndResolveSwagger(String inputFile) {
-        ParseOptions options = new ParseOptions();
-        options.setResolve(true); // Resolve all $refs
-        options.setResolveFully(true); // Fully resolve (including remote refs)
-
-        SwaggerParseResult result = new OpenAPIParser().readLocation(inputFile, null, options);
-        
-        if (result.getMessages() != null && !result.getMessages().isEmpty()) {
-            System.out.println("Parser messages:");
-            result.getMessages().forEach(System.out::println);
-        }
-
-        if (result.getOpenAPI() == null) {
-            throw new RuntimeException("Failed to parse the input file");
-        }
-
-        return result.getOpenAPI();
+private static OpenAPI parseAndResolveSwagger(String mainFile, String... additionalFiles) {
+    ParseOptions options = new ParseOptions();
+    options.setResolve(true);
+    options.setResolveFully(true);
+    options.setResolveCombinators(true);
+    
+    // First parse the main file
+    SwaggerParseResult result = new OpenAPIParser().readLocation(mainFile, null, options);
+    
+    // Then parse additional files to ensure they're in cache
+    for (String file : additionalFiles) {
+        new OpenAPIParser().readLocation(file, null, options);
     }
+    
+    // Re-parse main file now that all references should be cached
+    result = new OpenAPIParser().readLocation(mainFile, null, options);
+    
+    if (result.getMessages() != null) {
+        result.getMessages().forEach(System.out::println);
+    }
+    
+    if (result.getOpenAPI() == null) {
+        throw new RuntimeException("Failed to parse input files");
+    }
+    
+    return result.getOpenAPI();
+}
 
     private static OpenAPI extractEndpoint(OpenAPI fullApi, String httpMethod, String path) {
         OpenAPI extractedApi = new OpenAPI();
