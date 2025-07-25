@@ -1,0 +1,32 @@
+<dependencies>
+    <!-- Swagger/OpenAPI libraries -->
+    <dependency>
+        <groupId>io.swagger.parser.v3</groupId>
+        <artifactId>swagger-parser</artifactId>
+        <version>2.1.16</version>
+    </dependency>
+    <dependency>
+        <groupId>io.swagger.core.v3</groupId>
+        <artifactId>swagger-core</artifactId>
+        <version>2.2.15</version>
+    </dependency>
+    <dependency>
+        <groupId>org.openapitools</groupId>
+        <artifactId>swagger-converter</artifactId>
+        <version>1.0.9</version>
+    </dependency>
+    
+    <!-- YAML processing -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.dataformat</groupId>
+        <artifactId>jackson-dataformat-yaml</artifactId>
+        <version>2.15.3</version>
+    </dependency>
+    
+    <!-- For pretty printing JSON -->
+    <dependency>
+        <groupId>com.fasterxml.jackson.core</groupId>
+        <artifactId>jackson-databind</artifactId>
+        <version>2.15.3</version>
+    </dependency>
+</dependencies>
