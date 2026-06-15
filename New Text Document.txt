@@ -1,0 +1,13 @@
+Title: Bridging the Gap: A Service Discovery Pattern for Confluent Cloud DR
+
+When we set out to build enterprise-grade disaster recovery for Confluent Cloud, we quickly hit a hard reality: there is no automatic failover or failback. Every cluster carries a unique broker URL, and a DR switchover means every connected application needs to be reconfigured — a manual, error-prone, and time-consuming process at scale.
+
+In this lightning talk, we share how ABC's platform team solved this with a lightweight but powerful service discovery pattern. By integrating our CI/CD DR pipelines with Azure Key Vault, we created a single source of truth for the active cluster bootstrap URL. When a DR event occurs, our automation switches over the Confluent cluster and immediately writes the new broker URL to Key Vault — so applications can always resolve the correct endpoint without any configuration changes.
+
+We'll walk through the architecture, the tradeoffs we navigated (including the application restart required to refresh cluster metadata), and the lessons learned from building automated failover and failback pipelines on top of Confluent Cloud. Whether you are planning your DR strategy or already managing multi-cluster Confluent deployments, this talk offers a practical, replicable pattern you can take back to your team.
+
+Key takeaways:
+• Why Confluent Cloud DR requires a user-managed switchover strategy
+• How Azure Key Vault can act as a broker URL registry for seamless failover
+• CI/CD pipeline design for automated DR failover and failback
+• Tradeoffs and real-world lessons from production implementation
